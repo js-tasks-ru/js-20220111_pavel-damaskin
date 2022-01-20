@@ -1,4 +1,4 @@
-import { sum } from './solution/index';
+import { sum } from './index.js';
 
 describe('objects-arrays-intro-to-testing/sum', () => {
   it('should return sum of positive numbers', () => {
