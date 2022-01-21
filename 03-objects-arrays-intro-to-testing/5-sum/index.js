@@ -4,10 +4,10 @@
  * @returns {number | function}
  */
 export function sum (n) {
-  let res = (n) ? n : 0;
+  let res = n || 0;
 
-  function fx(n) {
-    res += (n) ? n : 0;
+  function fx(n = 0) {
+    res += n;
     return fx;
   }
 

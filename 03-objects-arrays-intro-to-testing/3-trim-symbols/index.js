@@ -20,7 +20,7 @@ export function trimSymbols(string, size) {
     times: 0,
   };
 
-  for (let char of string.split('')) {
+  for (const char of string.split('')) {
     if (char === currentChar.char) {
       if (currentChar.times < size) {
         res += char;
