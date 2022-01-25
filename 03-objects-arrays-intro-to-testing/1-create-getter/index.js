@@ -4,5 +4,11 @@
  * @returns {function} - function-getter which allow get value from object by set path
  */
 export function createGetter(path) {
+  const splittedString = path.split('.');
 
+  return (obj) => {
+    return splittedString.reduce((prev, current) => {
+      return prev?.[current];
+    }, obj);
+  };
 }
