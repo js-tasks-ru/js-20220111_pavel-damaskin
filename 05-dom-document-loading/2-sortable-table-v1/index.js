@@ -44,11 +44,9 @@ export default class SortableTable {
   }
 
   buildHeader() {
-    this.subElements['header'].innerHTML = this.headerConfig.map((field) => {
-      const renderDefaultSortType = '';
-
+    this.subElements.header.innerHTML = this.headerConfig.map((field) => {
       return `
-        <div class="sortable-table__cell" data-id="${field.id}" data-sortable="${field.sortable}" ${renderDefaultSortType}>
+        <div class="sortable-table__cell" data-id="${field.id}" data-sortable="${field.sortable}">
           <span>${field.title}</span>
         </div>
       `;
@@ -56,10 +54,10 @@ export default class SortableTable {
   }
 
   buildBody() {
-    this.subElements['body'].innerHTML = this.sortedData.map((product) => {
+    this.subElements.body.innerHTML = this.sortedData.map((product) => {
       let productMarkup = `<a href="/products/${product.id}" class="sortable-table__row">`;
 
-      let productRow = this.headerConfig.map((field) => {
+      const productRow = this.headerConfig.map((field) => {
         if (field.id === 'images') {
           return field.template(product.images);
         }
@@ -75,33 +73,37 @@ export default class SortableTable {
     }).join('');
   }
 
-  sort(fieldId, order = 'asc') {
-    switch (fieldId) {
-    case 'title':
+  sort(fieldValue, order = 'asc') {
+    const sortType = this.headerConfig.find(item => item.id === fieldValue)?.sortType;
+
+    if (!sortType) {
+      return;
+    }
+
+    switch (sortType) {
+    case 'string':
       this.sortedData = this.data.sort((a, b) => {
         if (order === 'asc') {
-          return a[fieldId].localeCompare(b[fieldId], ['ru', 'en'], {
+          return a[fieldValue].localeCompare(b[fieldValue], ['ru', 'en'], {
             caseFirst: 'upper',
           });
         }
 
         if (order === 'desc') {
-          return b[fieldId].localeCompare(a[fieldId], ['ru', 'en'], {
+          return b[fieldValue].localeCompare(a[fieldValue], ['ru', 'en'], {
             caseFirst: 'upper',
           });
         }
       });
       break;
-    case 'quantity':
-    case 'price':
-    case 'sales':
+    case 'number':
       this.sortedData = this.data.sort((a, b) => {
         if (order === 'asc') {
-          return a[fieldId] - b[fieldId];
+          return a[fieldValue] - b[fieldValue];
         }
 
         if (order === 'desc') {
-          return b[fieldId] - a[fieldId];
+          return b[fieldValue] - a[fieldValue];
         }
       });
       break;

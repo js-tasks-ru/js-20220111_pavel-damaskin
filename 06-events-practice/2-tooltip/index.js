@@ -4,11 +4,13 @@ class Tooltip {
   content = null;
 
   constructor() {
-    if (!this.constructor.instance) {
-      this.constructor.instance = this;
+    this.tooltipHandler = this.tooltipHandler.bind(this);
+
+    if (!Tooltip.instance) {
+      Tooltip.instance = this;
     }
 
-    return this.constructor.instance;
+    return Tooltip.instance;
   }
 
   initialize() {
@@ -54,16 +56,15 @@ class Tooltip {
   }
 
   setTooltipCoords(e) {
-    const xPointerCoord = e.clientX + 5;
-    const yPointerCoord = e.clientY + 5;
+    const shift = 5;
+    const xPointerCoord = e.clientX + shift;
+    const yPointerCoord = e.clientY + shift;
 
     this.element.style.left = `${xPointerCoord}px`;
     this.element.style.top = `${yPointerCoord}px`;
   }
 
   attachEvents() {
-    this.tooltipHandler = this.tooltipHandler.bind(this);
-
     document.addEventListener('pointerover', this.tooltipHandler);
   }
 

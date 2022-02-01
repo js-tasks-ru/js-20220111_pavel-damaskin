@@ -28,7 +28,7 @@ export default class NotificationMessage {
     `;
   }
 
-  render(notification) {
+  render(notificationContainer) {
     if (this.constructor.previousNotification) {
       this.constructor.previousNotification.remove();
     }
@@ -36,7 +36,7 @@ export default class NotificationMessage {
     const tmpElem = document.createElement('div');
     tmpElem.innerHTML = this.template;
 
-    this.element = notification ? notification : tmpElem.firstElementChild;
+    this.element = notificationContainer ? notificationContainer : tmpElem.firstElementChild;
 
     document.body.append(this.element);
 
@@ -47,8 +47,8 @@ export default class NotificationMessage {
     }, this.duration);
   }
 
-  show(notification) {
-    this.render(notification);
+  show(notificationContainer) {
+    this.render(notificationContainer);
   }
 
   remove() {
